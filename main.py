@@ -13,7 +13,10 @@ def print_board(board):
 game = Game()
 print_board(game.board)           
 
-game.board.grid[6][4] = None
-game.board.grid[1][4] = None
-game.board.move_piece((0,3), (4,7))
+game.move((6,5), (5,5))
+game.move((1,4), (3,4))
+game.move((6,6), (4,6))
+game.move((0,3), (4,7))
+
 print("White in check:", game.board.is_in_check("white"))
+print("White in checkmate:", game.is_checkmate("white"))
