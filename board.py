@@ -1,4 +1,4 @@
-from pieces import Pawn
+from pieces import Pawn, Rook
 
 
 class Board:
@@ -12,8 +12,8 @@ class Board:
             self.grid[1][col] = Pawn("black")
             self.grid[6][col] = Pawn("white")
 
-        # self.grid[0][0] = self.grid[0][7] = Rook("black")
-        # self.grid[7][0] = self.grid[7][7] = Rook("white")
+        self.grid[0][0] = self.grid[0][7] = Rook("black")
+        self.grid[7][0] = self.grid[7][7] = Rook("white")
 
         # self.grid[0][1] = self.grid[0][6] = Knight("black")
         # self.grid[7][1] = self.grid[7][6] = Knight("white")
