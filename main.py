@@ -21,3 +21,6 @@ print("Rook moves: ", rook.get_moves(game.board.grid, 7, 0))
 
 game.board.grid[6][0] = None
 print("Rook moves after clearing pawn:", rook.get_moves(game.board.grid, 7, 0))
+
+bishop = game.board.grid[7][2]
+print("Bishop moves: ", bishop.get_moves(game.board.grid, 7, 2))
