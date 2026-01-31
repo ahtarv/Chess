@@ -26,4 +26,10 @@ class Board:
 
         # self.grid[0][4] = King("black")
         # self.grid[7][4] = King("white") 
-
+    def move_piece(self, start, end):
+        sr, sc = start
+        er, ec = end
+        piece = self.grid[sr][sc]
+        self.grid[er][ec] = piece
+        self.grid[sr][sc] = None
+        piece.has_moved = True
