@@ -111,3 +111,24 @@ class Queen(Piece):
                 r += dr
                 c += dc
         return moves
+
+class King(Piece):
+    def get_moves(self, board, row, col):
+        moves = []
+        directions = [
+            (-1,0),
+            (1,0),
+            (0,-1),
+            (0,1),
+            (1,-1),
+            (-1,-1),
+            (-1,1),
+            (1,1)
+        ]
+        for dr, dc in directions:
+            r, c = row + dr, col + dc
+            if 0 <= r < 8 and 0 <= c < 8:
+                target = board[r][c]
+                if target is None or target.color != self.color:
+                    moves.append((r,c))
+        return moves

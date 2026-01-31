@@ -1,4 +1,4 @@
-from pieces import Pawn, Rook, Knight, Bishop, Queen
+from pieces import Pawn, Rook, Knight, Bishop, Queen, King
 
 
 class Board:
@@ -24,8 +24,8 @@ class Board:
         self.grid[0][3] = Queen("black")
         self.grid[7][3] = Queen("white")
 
-        # self.grid[0][4] = King("black")
-        # self.grid[7][4] = King("white") 
+        self.grid[0][4] = King("black")
+        self.grid[7][4] = King("white") 
     def move_piece(self, start, end):
         sr, sc = start
         er, ec = end

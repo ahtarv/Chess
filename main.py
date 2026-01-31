@@ -12,15 +12,11 @@ def print_board(board):
 
 game = Game()
 print_board(game.board)           
-# Move white pawn forward
-game.board.move_piece((6, 0), (5, 0))
-print_board(game.board)
 
-rook = game.board.grid[7][0]
-print("Rook moves: ", rook.get_moves(game.board.grid, 7, 0))
 
-game.board.grid[6][0] = None
-print("Rook moves after clearing pawn:", rook.get_moves(game.board.grid, 7, 0))
-
-bishop = game.board.grid[7][2]
-print("Bishop moves: ", bishop.get_moves(game.board.grid, 7, 2))
+print("Turn:", game.turn)
+print("Move white pawn:", game.move((6,0), (5,0)))
+print("Turn:", game.turn)
+print("try moving white again:", game.move((6,1), (5,1)))
+print("Move black pawn:", game.move((1,0), (2,0)))
+print("Turn:", game.turn)
