@@ -25,7 +25,8 @@ class Board:
         self.grid[7][3] = Queen("white")
 
         self.grid[0][4] = King("black")
-        self.grid[7][4] = King("white") 
+        self.grid[7][4] = King("white")
+
     def move_piece(self, start, end):
         sr, sc = start
         er, ec = end
@@ -33,3 +34,30 @@ class Board:
         self.grid[er][ec] = piece
         self.grid[sr][sc] = None
         piece.has_moved = True
+
+    def find_king(self, color):
+        for r in range(8):
+            for c in range(8):
+                piece = self.grid[r][c]
+                if piece and piece.color == color and piece.__class__.__name__ == "King":
+                    return(r,c)
+        return None 
+
+    def is_square_attacked(self, row, col, by_color):
+        for r in range(8):
+            for c in range(8):
+                piece = self.grid[r][c]
+                if piece and piece.color == by_color:
+                    moves = piece.get_moves(self.grid, r, c)
+                    if (row, col) in moves:
+                        return True
+        return False
+
+    def is_in_check(self, color):
+        king_pos = self.find_king(color)
+        if not king_pos:
+            return False
+
+        enemy = "black" if color == "white" else "white"
+        kr, kc = king_pos
+        return self.is_square_attacked(kr, kc, enemy)

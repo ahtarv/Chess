@@ -10,16 +10,23 @@ class Game:
         er, ec = end
 
         piece = self.board.grid[sr][sc]
-        if piece is None:
+        if piece is None or piece.color != self.turn:
             return False
 
-        if piece.color != self.turn:
+        if end not in piece.get_moves(self.board.grid, sr, sc):
+            return False
+        
+
+        captured = self.board.grid[er][ec]
+        self.board.grid[er][ec] = piece
+        self.board.grid[sr][sc] = None
+
+        if self.board.is_in_check(self.turn):
+            self.board.grid[sr][sc] = piece
+            self.board.grid[er][ec] = captured
             return False
 
-        moves = piece.get_moves(self.board.grid, sr, sc)
-        if end not in moves:
-            return False
-
-        self.board.move_piece(start, end)
+        
+        piece.has_moved = True
         self.turn = "black" if self.turn == "white" else "white"
         return True

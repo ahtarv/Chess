@@ -49,7 +49,7 @@ class Rook(Piece):
         return moves
 
 class Knight(Piece):
-    def get_moives(self, board, row, col):
+    def get_moves(self, board, row, col):
         moves = []
         jumps = [
             (-2,-1), (-2,1), (-1,-2), (-1,2), (1,-2), (1,2), (2,-1), (2,1)

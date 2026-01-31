@@ -13,10 +13,7 @@ def print_board(board):
 game = Game()
 print_board(game.board)           
 
-
-print("Turn:", game.turn)
-print("Move white pawn:", game.move((6,0), (5,0)))
-print("Turn:", game.turn)
-print("try moving white again:", game.move((6,1), (5,1)))
-print("Move black pawn:", game.move((1,0), (2,0)))
-print("Turn:", game.turn)
+game.board.grid[6][4] = None
+game.board.grid[1][4] = None
+game.board.move_piece((0,3), (4,7))
+print("White in check:", game.board.is_in_check("white"))
