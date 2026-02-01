@@ -1,10 +1,26 @@
 import pygame
 from game import Game
 
+import os
+
+PIECE_IMAGES = {}
+
+def load_piece_images():
+    pieces = ["P", "R", "N", "B", "Q","K"]
+    colors = ["w", "b"]
+
+    for color in colors:
+        for piece in pieces:
+            path = os.path.join("assets", f"{color}{piece}.png")
+            image = pygame.image.load(path)
+            PIECE_IMAGES[color + piece] = pygame.transform.scale(image, (SQ_SIZE, SQ_SIZE))
+
 pygame.init()
 
 WIDTH, HEIGHT = 640, 640
 SQ_SIZE = WIDTH // 8 
+
+load_piece_images() 
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chess")
@@ -15,6 +31,25 @@ game = Game()
 
 selected_square = None
 legal_moves = []
+
+def highlight_square(square, color, alpha = 120):
+    r,c = square
+    s = pygame.Surface((SQ_SIZE, SQ_SIZE))
+    s.set_alpha(alpha)
+    s.fill(color)
+    screen.blit(s, (c * SQ_SIZE, r * SQ_SIZE))
+
+def draw_check_indicator():
+    if game.board.is_in_check("white"):
+        king_pos = game.board.find_king("white")
+        if king_pos:
+            highlight_square(king_pos, (255,0,0), alpha=150)
+    
+    if game.board.is_in_check("black"):
+        king_pos = game.board.find_king("black")
+        if king_pos:
+            highlight_square(king_pos, (255,0,0), alpha = 150)
+
 
 def get_valid_moves_for_piece(game, row, col):
     piece = game.board.grid[row][col]
@@ -38,12 +73,7 @@ def get_valid_moves_for_piece(game, row, col):
         
     return valid_moves
 
-def highlight_square(square, color):
-    r,c = square
-    s = pygame.Surface((SQ_SIZE, SQ_SIZE))
-    s.set_alpha(120)
-    s.fill(color)
-    screen.blit(s, (c * SQ_SIZE, r * SQ_SIZE))
+
 
 def highlight_moves(moves):
     for r, c in moves:
@@ -54,14 +84,15 @@ def draw_pieces():
         for c in range(8):
             piece = game.board.grid[r][c]
             if piece:
-                letter = piece.__class__.__name__[0]
-                if piece.__class__.__name__ == "Knight":
+                color = "w" if piece.color == "white" else "b"
+                name = piece.__class__.__name__
+
+                letter = name[0]
+                if name == "Knight":
                     letter = "N"
                 
-                color = (0, 0, 0) if piece.color == "black" else (255, 255, 255)
-                text = font.render(letter, True, color)
-                text_rect = text.get_rect(center=(c * SQ_SIZE + SQ_SIZE // 2, r * SQ_SIZE + SQ_SIZE // 2))
-                screen.blit(text, text_rect)
+                image = PIECE_IMAGES[color + letter]
+                screen.blit(image, (c * SQ_SIZE, r * SQ_SIZE))
 
 def draw_board():
     colors = [(240, 217, 181), (181, 136, 99)]
@@ -111,8 +142,9 @@ while running:
     if selected_square:
         highlight_square(selected_square, (0, 0, 255))
         highlight_moves(legal_moves)
-        
+    draw_check_indicator()    
     draw_pieces()
     pygame.display.flip()
+
 
 pygame.quit()

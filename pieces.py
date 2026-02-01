@@ -131,4 +131,29 @@ class King(Piece):
                 target = board[r][c]
                 if target is None or target.color != self.color:
                     moves.append((r,c))
+
+        #Castling
+
+        if not self.has_moved:
+            if self.can_castle(board, row, col, king_side=True):
+                moves.append((row, col+2))
+
+            #Queen side
+            if self.can_castle(board, row, col, king_side=False):
+                moves.append((row, col-2))
         return moves
+
+    
+    def can_castle(self, board, row, col, king_side):
+        rook_col = 7 if king_side else 0
+        step = 1 if king_side else -1
+
+        rook = board[row][rook_col]
+        if rook is None or rook.has_moved:
+            return False
+        
+        for c in range(col + step, rook_col, step):
+            if board[row][c] is not None:
+                return False
+
+        return True
