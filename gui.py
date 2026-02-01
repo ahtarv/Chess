@@ -1,9 +1,12 @@
 import pygame
 from game import Game
+from ai import ai_move
 
 import os
 
 PIECE_IMAGES = {}
+
+AI_COLOR = "black"
 
 def load_piece_images():
     pieces = ["P", "R", "N", "B", "Q","K"]
@@ -145,6 +148,9 @@ while running:
     draw_check_indicator()    
     draw_pieces()
     pygame.display.flip()
+    
+    if game.turn == AI_COLOR:
+        ai_move(game, AI_COLOR, depth=3)
 
 
 pygame.quit()
