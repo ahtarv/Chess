@@ -149,6 +149,7 @@ while running:
     draw_pieces()
     pygame.display.flip()
     
+    pygame.event.pump()
     if game.turn == AI_COLOR:
         ai_move(game, AI_COLOR, depth=3)
 
